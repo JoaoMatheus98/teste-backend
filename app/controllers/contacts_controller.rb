@@ -80,8 +80,14 @@ class ContactsController < ApplicationController
       DeliveryBoy.deliver(message, topic: 'contacts_message')
     end
 
+    #Implement message log
     def kafka_log
-      log = {id: @contact.id, name: @contact.name, email: @contact.email, sysdate: Time.now}
-      DeliveryBoy.deliver(log, topic: 'logs_message')
+      log = {
+        id: @contact.id,
+        name: @contact.name,
+        email: @contact.email,
+        sysdate: Time.now
+      }
+      DeliveryBoy.deliver(log.to_json, topic: 'logs_message')
     end
 end
